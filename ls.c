@@ -132,11 +132,25 @@ init_quote(void)
 
     for (i = 0; i < 256; i++)
 	do_quote[i] = (isalnum(i) || ispunct(i)) ? 0 : 1;
+    /* From rfc 2396 section 2.2 "Reserved Characters":
+     * reserved = ";" | "/" | "?" | ":" | "@" | "&" | "=" | "+" |
+     *            "$" | ","
+     */
+    do_quote[';'] = 1;
+    do_quote['/'] = 1;
+    do_quote['?'] = 1;
+    do_quote[':'] = 1;
+    do_quote['@'] = 1;
+    do_quote['&'] = 1;
+    do_quote['='] = 1;
     do_quote['+'] = 1;
+    do_quote['$'] = 1;
+    do_quote[','] = 1;
+    /* Escape erroneous anchors, escapes, and quotes */
     do_quote['#'] = 1;
     do_quote['%'] = 1;
     do_quote['"'] = 1;
-    do_quote['?'] = 1;
+    do_quote['\''] = 1;
 }
 
 char*
